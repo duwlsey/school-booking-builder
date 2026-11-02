@@ -1,0 +1,102 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signed() { return request.auth != null; }
+    function admin() { return signed() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)) && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.enabled == true; }
+    function settings() { return get(/databases/$(database)/documents/site/settings).data; }
+    function pool(id) { return get(/databases/$(database)/documents/resources/$(id)).data; }
+    function poolAfter(id) { return getAfter(/databases/$(database)/documents/resources/$(id)).data; }
+    function allocates(id, q, bid) {
+      return poolAfter(id).used == pool(id).used + q && poolAfter(id).lastBooking == bid;
+    }
+    function releases(id, q, bid) {
+      return poolAfter(id).used == pool(id).used - q && poolAfter(id).lastBooking == bid;
+    }
+    function validPool(d) {
+      return d.keys().hasAll(['capacity','used','closed','beginAt','endAt','cancelBefore','item','slotKey','label','date','start','end','kind','lastBooking'])
+        && d.capacity is int && d.capacity > 0 && d.capacity <= 9999
+        && d.used is int && d.used >= 0 && d.used <= d.capacity
+        && d.closed is bool && d.beginAt is timestamp && d.endAt is timestamp && d.beginAt < d.endAt
+        && d.cancelBefore is timestamp;
+    }
+    function counterChange(rid) {
+      let bid = request.resource.data.lastBooking;
+      let path = /databases/$(database)/documents/bookings/$(bid);
+      let b = getAfter(path).data;
+      return signed() && bid is string && bid.size() == 48
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['used','lastBooking'])
+        && b.resourceId == rid
+        && ((!exists(path) && b.active && request.resource.data.used == resource.data.used + b.quantity)
+          || (exists(path) && get(path).data.active && !b.active
+            && request.resource.data.used == resource.data.used - b.quantity));
+    }
+    match /admins/{uid} {
+      allow get: if signed() && request.auth.uid == uid;
+      allow list, create, update, delete: if false;
+    }
+    match /site/settings {
+      allow read: if true;
+      allow create: if admin() && request.resource.data.opensAt is timestamp
+        && request.resource.data.closesAt is timestamp && request.resource.data.opensAt < request.resource.data.closesAt;
+      allow update: if admin() && request.resource.data.opensAt < request.resource.data.closesAt
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['config','opensAt','closesAt','paused','updatedAt']);
+      allow delete: if false;
+    }
+    match /resources/{rid} {
+      allow read: if true;
+      allow create: if admin() && validPool(request.resource.data) && request.resource.data.used == 0;
+      allow update: if validPool(request.resource.data)
+        && ((admin() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['capacity','closed']))
+          || counterChange(rid));
+      allow delete: if admin() && resource.data.used == 0;
+    }
+    match /bookings/{bid} {
+      // Internal booking IDs can appear in counters; they are NOT receipt secrets.
+      allow get: if admin() || (signed() && resource.data.ownerUid == request.auth.uid);
+      allow list: if admin() || (signed() && resource.data.ownerUid == request.auth.uid);
+      allow create: if signed() && bid.size() == 48
+        && request.resource.data.keys().hasOnly(['bookingId','receiptCode','ownerUid','resourceId','quantity','active','status','answers','snapshot','createdAt','updatedAt'])
+        && request.resource.data.bookingId == bid
+        && request.resource.data.receiptCode is string && request.resource.data.receiptCode.size() == 48
+        && getAfter(/databases/$(database)/documents/receipts/$(request.resource.data.receiptCode)).data == request.resource.data
+        && (request.resource.data.ownerUid == request.auth.uid || admin())
+        && request.resource.data.quantity is int && request.resource.data.quantity > 0
+        && (pool(request.resource.data.resourceId).kind == 'rental' || request.resource.data.quantity == 1)
+        && request.resource.data.quantity <= pool(request.resource.data.resourceId).capacity
+        && request.resource.data.answers is list && request.resource.data.answers.size() <= 25
+        && request.resource.data.snapshot == pool(request.resource.data.resourceId)
+        && request.resource.data.active == true
+        && request.resource.data.createdAt == request.time && request.resource.data.updatedAt == request.time
+        && (request.resource.data.status == 'pending' || request.resource.data.status == 'confirmed')
+        && (admin() || (request.time >= settings().opensAt && request.time < settings().closesAt
+          && !settings().paused && !pool(request.resource.data.resourceId).closed
+          && request.time < pool(request.resource.data.resourceId).beginAt
+          && request.resource.data.status == (settings().config.approval == 'manual' ? 'pending' : 'confirmed')))
+        && allocates(request.resource.data.resourceId, request.resource.data.quantity, bid);
+      allow update: if signed()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','active','updatedAt','cancelCode'])
+        && getAfter(/databases/$(database)/documents/receipts/$(resource.data.receiptCode)).data == request.resource.data
+        && request.resource.data.updatedAt == request.time
+        && ((resource.data.active && !request.resource.data.active
+          && (request.resource.data.status == 'cancelled'
+            || (admin() && request.resource.data.status in ['rejected','returned']))
+          && (admin() || (request.resource.data.cancelCode == resource.data.receiptCode
+            && request.time < resource.data.snapshot.cancelBefore
+            && request.time < resource.data.snapshot.beginAt && request.resource.data.status == 'cancelled'))
+          && releases(resource.data.resourceId, resource.data.quantity, bid))
+          || (admin() && resource.data.active && request.resource.data.active
+            && ((resource.data.status == 'pending' && request.resource.data.status == 'confirmed')
+              || (resource.data.status == 'confirmed' && request.resource.data.status == 'loaned'))));
+      allow delete: if false;
+    }
+    match /receipts/{code} {
+      // A separate unguessable 192-bit code; never published in resource counters.
+      allow get: if signed() && code.size() == 48;
+      allow list, delete: if false;
+      allow create, update: if signed() && code.size() == 48
+        && request.resource.data.receiptCode == code
+        && request.resource.data == getAfter(/databases/$(database)/documents/bookings/$(request.resource.data.bookingId)).data;
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}
