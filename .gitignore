@@ -1,4 +1,5 @@
 .build/
 node_modules/
 *debug.log
-install-screens/
+install-screens/*
+!install-screens/30-copy-web-config.jpg
