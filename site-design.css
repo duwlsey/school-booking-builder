@@ -38,3 +38,34 @@
 /* Inset select chevron equally to the text's left padding. */
 .booking .field select{appearance:none;-webkit-appearance:none;padding-right:38px;padding-left:12px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2356677e' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:14px 14px}
 .admin-navigation{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.booking .admin-navigation button{min-height:35px;font-size:10px;text-align:center;border:1px solid #e2e6ed;background:white}.booking .admin-navigation button.active{color:var(--book);background:var(--wash);border-color:var(--book)}.admin-calendar-heading{display:flex;align-items:center;justify-content:space-between;margin:20px 0 14px}.admin-calendar-heading button{font-size:24px;width:32px}.admin-calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-bottom:25px}.admin-day{min-height:59px;padding:5px 1px;border-radius:7px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:#8d97a5;border:1px solid #edf0f4}.admin-day.has-schedule{background:var(--wash);color:var(--book)}.admin-day.selected{border-color:var(--book)}.admin-day small{font-size:8px}.admin-day em{font-size:7px;font-style:normal}.admin-subtitle{margin:24px 0 14px!important;padding-top:18px;border-top:1px solid #e0e5ed;font-size:13px;font-weight:700}.admin-table-scroll{overflow:auto;max-height:420px}.booking .admin-table{font-size:10px}.booking .admin-table td{vertical-align:top;overflow-wrap:anywhere}.booking .admin-table td:first-child{min-width:110px}.booking .admin-table button{white-space:nowrap;margin:3px 0}.admin-detail{font:9px Consolas,monospace}.admin-session-form{padding:15px 0;border-bottom:1px solid #e1e6ed}.admin-session-form>strong{font-size:11px}.admin-danger{font-size:10px;color:#a2505b;text-decoration:underline;padding:10px 0}.booking [data-admin-form]{margin:15px 0}.booking [data-admin-form] .book-slot{width:100%;min-height:38px;text-align:center;align-items:center;margin:8px 0}.booking details{color:#6b7789;border-color:#e1e6ed}.booking details p{font-size:10px}.booking input[type=color]{padding:3px}
+/* Compact actions for the published reservation and management screens. */
+.booking .site-control,
+.booking .manage-actions button,
+.booking #search-form button,
+.booking button[data-resource-save] {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:38px; padding:7px 12px; border:1px solid #dbe3ec;
+  border-radius:7px; background:#fff; color:#344860; font-size:12px;
+  font-weight:650; line-height:1.45;
+}
+.booking .site-control:hover,.booking .manage-actions button:hover,
+.booking #search-form button:hover {background:var(--wash);border-color:var(--book)}
+.booking .site-control:focus-visible,.booking .manage-actions button:focus-visible,
+.booking summary:focus-visible {outline:2px solid var(--book);outline-offset:3px}
+.booking .manage-heading {display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.booking .manage-heading h4 {margin:0;font-size:18px}
+.booking .manage-actions,.booking .manage-downloads {display:flex;flex-wrap:wrap;gap:6px}
+.booking .manage-downloads {margin-top:12px}
+.booking .manage-actions button {margin:0;min-height:34px;font-size:11px}
+.booking .admin-table th,.booking .admin-table td {padding:10px 8px}
+.booking .admin-table [data-detail] {color:var(--book);font-size:12px;font-weight:650;text-align:left;white-space:normal}
+.booking .booking-status {display:inline-block;padding:2px 8px;margin-bottom:6px;border-radius:5px;background:#edf1f5;color:#49596b;font-size:11px;font-weight:650}
+.booking .booking-status[data-status=confirmed],.booking .booking-status[data-status=loaned] {background:var(--wash);color:var(--book)}
+.booking .booking-status[data-status=pending] {background:#f7efdf;color:#73551e}
+.booking .site-danger,.booking .manage-actions [data-state=rejected],.booking .manage-actions [data-state=cancelled] {color:#8b3e49}
+.booking #search-form {display:flex;gap:8px;align-items:stretch}
+.booking #search-form input {min-width:0;flex:1;border:1px solid #dbe3ec;border-radius:7px;padding:8px 10px}
+.booking .lookup-back {margin-top:16px}
+.booking #lookup-result .site-danger {display:flex;margin-top:10px}
+.booking .book-result [data-copy-link] {margin-top:8px}
+.booking .runtime-footer button {min-height:36px;padding:5px 8px;color:#51647b}
