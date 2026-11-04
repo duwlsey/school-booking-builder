@@ -69,3 +69,32 @@
 .booking #lookup-result .site-danger {display:flex;margin-top:10px}
 .booking .book-result [data-copy-link] {margin-top:8px}
 .booking .runtime-footer button {min-height:36px;padding:5px 8px;color:#51647b}
+/* Reservation operations */
+.booking .manage-heading {flex-wrap:wrap}
+.booking .manage-heading .manage-export {background:#334a62;color:#fff;border-color:#334a62}
+.booking .manage-heading .manage-export:hover {background:#263b50}
+.booking .admin-table-scroll {border:1px solid #dce4ed;border-radius:10px;margin:14px 0}
+.booking .admin-table {margin:0;width:100%;border-collapse:collapse}
+.booking .admin-table th {background:#f3f6f9;color:#4d6075;text-align:left}
+.booking .admin-table td,.booking .admin-table th {padding:12px}
+.booking .admin-table td {font-size:12px;border-bottom:1px solid #e5ebf1}
+.booking .admin-table tr:last-child td {border-bottom:0}
+.booking .admin-table td:first-child {width:58%}
+.booking .manage-reservation-date,.booking .manage-reservation-meta {display:block}
+.booking .manage-reservation-date {font-size:14px;color:#23364b}
+.booking .manage-reservation-meta {margin:3px 0 7px;color:#53667d}
+.booking .admin-table button[data-detail].manage-detail {min-height:32px;margin:0;text-decoration:none;color:#3d526a}
+.booking details form.manage-session {display:grid;grid-template-columns:minmax(0,1fr) 85px auto auto;align-items:end;gap:10px;margin:0;padding:12px 0;border-bottom:1px solid #e6ebf1}
+.booking .manage-session-title {align-self:center;line-height:1.45;overflow-wrap:anywhere}
+.booking .manage-session-title strong {display:block;font-size:13px;color:#263a50}
+.booking .manage-session-title small {color:#53667d;font-size:11px}
+.booking .manage-session .manage-capacity {margin:0}
+.booking .manage-session .manage-capacity input {min-height:36px;padding:6px 8px;margin-top:4px}
+.booking .manage-session-toggle {display:flex;align-items:center;gap:4px;min-height:38px;font-size:11px;white-space:nowrap}
+.booking details form.manage-session>button {min-height:38px;padding:6px 10px;background:#fff;color:#344860}
+@media(max-width:600px){
+  .booking details form.manage-session {grid-template-columns:minmax(0,1fr) auto auto}
+  .booking .manage-session-title {grid-column:1/-1}
+  .booking .manage-session .manage-capacity input {max-width:100px}
+  .booking .admin-table td,.booking .admin-table th {padding:9px}
+}
