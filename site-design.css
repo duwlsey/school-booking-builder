@@ -125,3 +125,8 @@ dialog:has(#operation-title)>button {display:none}
 .operation-details dd {white-space:pre-wrap}
 .operation-details code {font-size:11px}
 .operation-error {color:#9b3344;margin:12px 0 0}
+.booking .reservation-list-heading {display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:16px;font-size:13px;color:#344a60}
+.booking .reservation-filter {display:inline-flex;gap:3px;padding:3px;background:#eef2f6;border-radius:8px}
+.booking .reservation-filter button {min-height:30px;padding:4px 10px;border-radius:6px;color:#52677d;font-size:12px;font-weight:650;text-decoration:none}
+.booking .reservation-filter button[aria-pressed=true] {background:#fff;color:#263e56;box-shadow:0 1px 3px #233a5526}
+.booking .reservation-filter button:focus-visible {outline:2px solid #55789d;outline-offset:2px}
