@@ -25,3 +25,11 @@ install-screens/*
 !install-screens/31-node-download.jpg
 !install-screens/23-cli-confirm-command.jpg
 !install-screens/32-admin-uid-copy.png
+
+!install-screens/19-admin-collection.png
+
+!install-screens/20-admin-permission.png
+
+!install-screens/15-anonymous-auth.png
+
+!install-screens/30-copy-web-config.png

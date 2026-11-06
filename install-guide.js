@@ -169,7 +169,7 @@ const INSTALL_GUIDE=[
         "where": "제공업체 목록",
         "action": "익명 → 사용 설정 켜기 → 저장",
         "done": "목록에 익명이 추가됨",
-        "image": "15-anonymous-auth.jpg"
+        "image": "15-anonymous-auth.png"
       },
       {
         "where": "새 제공업체 추가",
@@ -209,13 +209,13 @@ const INSTALL_GUIDE=[
         "where": "Firestore → 데이터",
         "action": "컬렉션 시작 → admins 입력 → 다음",
         "done": "첫 문서 추가 화면이 열림",
-        "image": "19-admin-collection.jpg"
+        "image": "19-admin-collection.png"
       },
       {
         "where": "첫 문서 추가",
         "action": "문서 ID에 UID 붙여넣기 → enabled / boolean / 참(true) → 저장",
         "done": "admins 아래 내 UID와 enabled: true가 보임",
-        "image": "20-admin-permission.jpg"
+        "image": "20-admin-permission.png"
       }
     ],
     "more": "사용자 추가가 비활성화되어 있으면 이전 단계에서 이메일/비밀번호 로그인을 켰는지 확인하세요. 배포 후 관리자 권한이 없다고 나오면 문서 ID가 본인 UID와 정확히 같은지, enabled의 유형이 boolean이고 값이 참인지 확인하세요. 비밀번호와 UID는 도우미에 입력하거나 채팅으로 보낼 필요가 없습니다."
@@ -292,7 +292,7 @@ const INSTALL_GUIDE=[
         "where": "SDK 설정 및 구성",
         "action": "구성 선택 → 회색 코드 상자 오른쪽 아래 복사 버튼",
         "done": "내 웹 앱 설정 코드가 복사됨",
-        "image": "30-copy-web-config.jpg"
+        "image": "30-copy-web-config.png"
       },
       {
         "where": "같은 창",
@@ -388,7 +388,7 @@ function installLocator(task){
  return '<figure class="install-location-map"><figcaption>명령 입력 창 · Windows 예시 그림 (값은 예시)</figcaption><div class="install-terminal"><div>명령 프롬프트 <span>─　□　×</span></div><pre>'+esc(lines)+'</pre></div><p>'+(kind==='hosting'?'Hosting URL 뒤의 주소 전체를 여세요. 예시 주소는 사용하지 마세요.':kind==='config'?'명령어가 아니라 본인 Firebase 웹 앱의 구성 코드를 붙여넣는 단계예요.':'파일 탐색기 주소창에 cmd를 입력해 열었던 창이에요. > 뒤의 커서가 있는 줄에 붙여넣고 Enter를 누르세요.')+'</p></figure>';
 }
 function installTask(task,index){
- return '<li class="install-task"><div class="install-task-number">'+(index+1)+'</div><div class="install-task-content"><p class="install-task-where">'+esc(task.where)+'</p><p class="install-task-action">'+esc(task.action)+'</p>'+(task.command?installCommand(task.command):'')+(task.locator?explorerLocator(task.locator):'')+(task.diagram?installLocator(task):'')+'<p class="install-task-done">확인 · '+esc(task.done)+'</p>'+(task.image?'<details class="install-task-screen"'+(task.imageOpen?' open':'')+'><summary>이 단계의 실제 화면 보기</summary><a href="install-screens/'+task.image+'" target="_blank" rel="noopener"><img src="install-screens/'+task.image+'" alt="'+esc(task.where+' — '+task.action)+'" loading="lazy"></a><p>눌러 크게 보기 · 메뉴 이름과 배치는 바뀔 수 있어요.</p></details>':'')+'</div></li>';
+ return '<li class="install-task"><div class="install-task-number">'+(index+1)+'</div><div class="install-task-content"><p class="install-task-where">'+esc(task.where)+'</p><p class="install-task-action">'+esc(task.action)+'</p>'+(task.command?installCommand(task.command):'')+(task.locator?explorerLocator(task.locator):'')+(task.diagram?installLocator(task):'')+'<p class="install-task-done">확인 · '+esc(task.done)+'</p>'+(task.image?'<details class="install-task-screen"'+(task.imageOpen?' open':'')+'><summary>이 단계의 실제 화면 보기</summary><a href="install-screens/'+task.image+'?v=59" target="_blank" rel="noopener"><img src="install-screens/'+task.image+'" alt="'+esc(task.where+' — '+task.action)+'" loading="lazy"></a><p>눌러 크게 보기 · 메뉴 이름과 배치는 바뀔 수 있어요.</p></details>':'')+'</div></li>';
 }
 function installationChecklist(){
  const step=INSTALL_GUIDE[installStep],total=INSTALL_GUIDE.length,current=installStep+1;
