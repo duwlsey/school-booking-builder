@@ -20,3 +20,33 @@ body>header .brand{display:inline-flex;align-items:center;line-height:24px;min-h
 .install-package-summary{display:flex;justify-content:space-between;gap:22px;align-items:center;padding:23px;background:#fff;border:1px solid #d5dfea;border-radius:11px}.install-package-summary .eyebrow{font-size:9px;margin-bottom:7px}.install-package-summary h3{font-size:19px;margin:0 0 8px}.install-package-summary p:not(.eyebrow){font-size:12px;color:#72859a}.install-check-note{font-size:11px;color:#718296;margin:14px 3px}.install-progress{display:flex;align-items:center;gap:17px;margin:20px 0;color:#6b8095;font-size:11px}.install-progress progress{flex:1;height:6px;accent-color:#587893}.install-guide-layout{display:grid;grid-template-columns:205px minmax(0,1fr);gap:20px}.install-guide-nav{display:flex;flex-direction:column;gap:4px;align-self:start;position:sticky;top:15px}.install-guide-nav button{display:flex;align-items:center;gap:10px;text-align:left;padding:11px 10px;font-size:11px;border-radius:7px;color:#6b8093}.install-guide-nav button b{font:10px Consolas,monospace;color:#8b9daf}.install-guide-nav button.active{background:#fff;color:#355570;box-shadow:0 1px 4px #24436108}.install-step-panel{padding:27px;background:#fff;border:1px solid #d9e2eb;border-radius:12px;min-width:0}.install-step-panel>.eyebrow{font-size:9px;margin-bottom:8px}.install-step-panel h3{font-size:22px;margin:0 0 15px;letter-spacing:-.6px}.install-location{font-size:11px;color:#54748f;padding:9px 12px;background:#f0f5f9;border-radius:6px;margin-bottom:17px}.install-instructions{font-size:13px;line-height:1.95;color:#5f7185;word-break:keep-all}.install-real-screen{margin:22px 0;border:1px solid #e0e6ed;border-radius:8px;overflow:hidden}.install-real-screen img{display:block;width:100%;height:auto}.install-real-screen figcaption{font-size:10px;padding:10px 12px;color:#8294a7;background:#fafcfe}.install-screen-pending{padding:14px;border:1px dashed #d7e1eb;background:#fafcfe;color:#8799ab;font-size:11px;margin:20px 0;border-radius:7px}.install-command{display:flex;gap:15px;align-items:center;justify-content:space-between;overflow:auto;white-space:pre-wrap;padding:14px;background:#eff3f7;color:#405b73;border-radius:6px;margin:12px 0;font-size:12px}.install-command button{font-size:10px;color:#6e8ba5;white-space:nowrap}.install-external{display:inline-block;font-size:12px;margin:12px 0;color:#4d7696}.install-manual-checks{border:0;padding:0;margin:26px 0}.install-manual-checks legend{font-size:12px;font-weight:600;color:#48647e;margin-bottom:12px}.install-manual-checks label{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border:1px solid #e1e8ef;border-radius:7px;margin-bottom:8px;color:#63788c;font-size:12px;cursor:pointer}.install-manual-checks input{margin-top:4px;accent-color:#587b98}.install-step-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid #e5ebf2;padding-top:20px}.install-step-actions p{font-size:12px;color:#617b91}.install-step-actions button:disabled{opacity:.4;cursor:default}@media(max-width:1000px){.install-guide-layout{grid-template-columns:1fr}.install-guide-nav{position:static;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.install-guide-nav button{font-size:10px;padding:9px 6px}}@media(max-width:600px){.install-package-summary{display:block;padding:20px}.install-package-summary .primary{margin-top:17px}.install-guide-nav{grid-template-columns:repeat(2,minmax(0,1fr))}.install-step-panel{padding:20px 17px}.install-step-panel h3{font-size:20px}}
 
 .install-directions{padding-left:22px;color:#34495e;font-size:13px;line-height:1.85}.install-directions li{padding-left:4px;margin:9px 0}
+.install-scale{padding:18px 20px;margin:16px 0;border:1px solid #d6e1ec;border-radius:10px;background:#f5f8fb;color:#344d66;font-size:12px;line-height:1.7}
+.install-scale>strong{font-size:14px}
+.install-scale>div{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.install-scale>div>span{padding:7px 10px;border:1px solid #dde6ee;border-radius:7px;background:white}
+.install-scale b{margin-left:6px;color:#294b6d}
+.install-scale p{margin:8px 0}
+.install-scale summary,.install-extra summary,.install-task-screen summary{cursor:pointer;font-weight:650;color:#3f5f7b}
+.install-tasks{list-style:none;padding:0;margin:24px 0}
+.install-task{display:flex;gap:12px;padding:18px 0;border-bottom:1px solid #e3eaf1}
+.install-task:first-child{padding-top:0}
+.install-task-number{display:grid;place-items:center;flex:0 0 25px;height:25px;border-radius:7px;background:#e8eff6;color:#3b5e80;font:600 12px/1 sans-serif}
+.install-task-content{flex:1;min-width:0}
+.install-task-where{margin:0 0 5px;font-size:11px;font-weight:650;color:#657b91}
+.install-task-action{margin:0;font-size:14px;line-height:1.7;font-weight:650;color:#253f58;word-break:keep-all;overflow-wrap:anywhere}
+.install-task-done{margin:8px 0 0;font-size:12px;color:#587187;line-height:1.6}
+.install-task-screen,.install-extra{margin-top:12px;padding:11px 12px;border:1px solid #dee7ef;border-radius:7px;background:#fbfcfe;font-size:12px;line-height:1.7}
+.install-task-screen img{display:block;width:100%;margin-top:12px;border-radius:5px}
+.install-extra p{color:#526b82}
+.install-locator{margin:14px 0 0;padding:12px;border:1px solid #dae4ed;border-radius:8px;background:#f8fafc}
+.install-locator figcaption{margin-bottom:10px;font-size:11px;color:#5d7388}
+.explorer-example{background:#fff;border:1px solid #d3dce5;border-radius:7px;overflow:hidden;font-size:11px}
+.explorer-title{padding:7px 10px;background:#edf2f7;color:#435a70}
+.explorer-toolbar{display:flex;align-items:center;gap:6px;padding:8px;border-bottom:1px solid #e2e8ef}
+.explorer-toolbar>span{white-space:nowrap;color:#697c90}
+.explorer-address{flex:1;min-width:0;padding:7px;border:1px solid #d8e1e9;border-radius:4px;color:#526a80;overflow-wrap:anywhere}
+.explorer-address.is-target{border:2px solid #527da5;background:#eaf2fa;color:#214c72;font-weight:700}
+.explorer-search{padding:7px;border:1px solid #d8e1e9;color:#8a99a7;border-radius:4px}
+.explorer-files{display:grid;gap:7px;padding:12px;color:#49617a}
+.install-locator>p{font-size:12px;line-height:1.6;color:#4d657c;margin:10px 0 0}
+@media(max-width:600px){.install-scale{padding:15px}.install-task{gap:9px}.install-task-action{font-size:13px}.explorer-search{display:none}}
