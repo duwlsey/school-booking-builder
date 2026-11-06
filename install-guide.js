@@ -1,14 +1,10 @@
-/* Manual installation checklist. Ticks record user actions. */
-let installStep=0,installChecks={};
+/* Installation guide progress follows the displayed step. */
+let installStep=0;
 const INSTALL_GUIDE=[
   {
     "title": "설치 파일 준비",
     "where": "도우미 → Firebase 설치 패키지",
     "text": "",
-    "checks": [
-      "Firebase 설치 패키지를 내려받았어요",
-      "압축을 풀고 시작하기.html을 열었어요"
-    ],
     "action": "download",
     "tasks": [
       {
@@ -29,10 +25,6 @@ const INSTALL_GUIDE=[
     "title": "Google 로그인",
     "where": "Firebase 콘솔 → Google 로그인",
     "text": "",
-    "checks": [
-      "사용할 Google 계정을 준비했어요",
-      "Firebase 콘솔에 로그인했어요"
-    ],
     "link": "https://console.firebase.google.com/",
     "caption": "로그인 후 Firebase 프로젝트 시작 화면 · 2026-11-02 직접 캡처",
     "tasks": [
@@ -48,11 +40,6 @@ const INSTALL_GUIDE=[
     "title": "새 프로젝트",
     "where": "Firebase 콘솔 → 새 프로젝트 시작 → 프로젝트 만들기",
     "text": "",
-    "checks": [
-      "새 프로젝트 이름을 입력했어요",
-      "자동으로 정해진 프로젝트 ID를 확인했어요",
-      "약관과 선택 가입 항목을 확인하고 계속을 눌렀어요"
-    ],
     "link": "https://console.firebase.google.com/",
     "caption": "1. 프로젝트 이름을 입력하는 첫 화면 · 개발자 프로그램 가입은 선택 사항입니다.",
     "tasks": [
@@ -75,12 +62,6 @@ const INSTALL_GUIDE=[
     "title": "선택 기능과 생성",
     "where": "Gemini 설정 → Google Analytics 설정",
     "text": "",
-    "checks": [
-      "Gemini 설명을 읽고 사용 여부를 선택했어요",
-      "Google 애널리틱스 설명을 읽고 사용 여부를 선택했어요",
-      "프로젝트 생성 후 대시보드가 열렸어요",
-      "프로젝트 이름과 무료 Spark 요금제를 확인했어요"
-    ],
     "caption": "1. Firebase의 Gemini 사용 설정을 끄고 계속 · 실제 캡처",
     "tasks": [
       {
@@ -107,11 +88,6 @@ const INSTALL_GUIDE=[
     "title": "웹 앱 등록",
     "where": "프로젝트 개요 → 앱 추가 → 웹 아이콘 </>",
     "text": "",
-    "checks": [
-      "본인 프로젝트에서 웹 앱을 선택했어요",
-      "웹 앱 닉네임을 입력하고 앱 등록을 마쳤어요",
-      "콘솔로 돌아와 등록한 웹 앱을 확인했어요"
-    ],
     "link": "https://firebase.google.com/docs/web/setup",
     "caption": "1. 웹 앱 닉네임 입력 → 이 안내에서는 Hosting 체크를 비워 두고 앱 등록",
     "tasks": [
@@ -139,12 +115,6 @@ const INSTALL_GUIDE=[
     "title": "예약 저장소",
     "where": "데이터베이스 및 스토리지 → Firestore → 데이터베이스 만들기",
     "text": "",
-    "checks": [
-      "Firestore Standard 버전의 기본 데이터베이스 (default)를 준비했어요",
-      "저장 위치를 확인하고 선택했어요",
-      "프로덕션 모드로 생성했어요",
-      "생성 후 데이터 탭과 데이터베이스 위치를 확인했어요"
-    ],
     "link": "https://firebase.google.com/docs/firestore/quickstart",
     "caption": "1. Standard 버전 선택 → 다음 · 실제 캡처",
     "tasks": [
@@ -184,11 +154,6 @@ const INSTALL_GUIDE=[
     "title": "로그인 방식",
     "where": "보안 → Authentication → 로그인 방법",
     "text": "",
-    "checks": [
-      "익명 로그인 사용 설정을 켜고 저장했어요",
-      "이메일/비밀번호 사용 설정을 켜고 저장했어요",
-      "목록에서 두 방식 모두 사용 설정됨인지 확인했어요"
-    ],
     "link": "https://firebase.google.com/docs/auth/web/anonymous-auth",
     "caption": "1. 익명 선택 → 오른쪽 사용 설정 켜기 → 저장. 캡처는 켜기 전 화면입니다.",
     "tasks": [
@@ -222,12 +187,6 @@ const INSTALL_GUIDE=[
     "title": "관리자 지정",
     "where": "Authentication → 사용자 / Firestore → 데이터",
     "text": "",
-    "checks": [
-      "사이트 관리자용 이메일·비밀번호 계정을 만들었어요",
-      "만든 계정 행에서 UID를 복사했어요",
-      "admins 문서 ID에 본인 UID를 붙여넣었어요",
-      "enabled의 유형 boolean과 값 참(true)을 확인하고 저장했어요"
-    ],
     "caption": "1. Authentication → 사용자 추가 · 관리자 이메일·비밀번호는 직접 입력",
     "tasks": [
       {
@@ -260,12 +219,6 @@ const INSTALL_GUIDE=[
     "title": "배포 도구 설치",
     "where": "내 컴퓨터 → Node.js 설치 → 압축을 푼 폴더 → 명령 입력 창",
     "text": "",
-    "checks": [
-      "Node.js LTS를 설치하고 버전 숫자를 확인했어요",
-      "압축을 푼 폴더에서 package.json과 setup.cjs를 확인했어요",
-      "그 폴더에서 명령 입력 창을 열었어요",
-      "Firebase CLI 설치 후 버전 숫자를 확인했어요"
-    ],
     "link": "https://nodejs.org/",
     "caption": "Node.js 공식 다운로드 실제 화면 · LTS / Windows 확인 → 아래쪽 Windows Installer (.msi). 버전 숫자는 달라질 수 있습니다.",
     "tasks": [
@@ -312,11 +265,6 @@ const INSTALL_GUIDE=[
     "title": "내 프로젝트 연결 설정",
     "where": "Firebase 콘솔 → 설정 → 일반 → 내 앱 → SDK 설정 및 구성 → 구성",
     "text": "",
-    "checks": [
-      "본인 웹 앱의 구성 코드를 복사했어요",
-      "코드를 그대로 붙여넣고 공개 설정 저장 완료를 확인했어요",
-      "표시된 배포 대상이 본인 프로젝트 ID와 같아요"
-    ],
     "caption": "실제 Firebase 콘솔 · 구성 선택과 코드 상자 오른쪽 아래 복사 아이콘 · 2026-11-02",
     "tasks": [
       {
@@ -348,12 +296,6 @@ const INSTALL_GUIDE=[
     "title": "로그인과 배포",
     "where": "압축을 푼 폴더의 명령 입력 창 → Google 로그인 → 배포된 사이트",
     "text": "",
-    "checks": [
-      "프로젝트를 만든 Google 계정으로 CLI에 로그인했어요",
-      "표시된 배포 대상이 본인 프로젝트 ID인지 확인했어요",
-      "Deploy complete!를 확인했고 마지막 오류가 없어요",
-      "출력된 본인 Hosting URL을 열었어요"
-    ],
     "link": "https://firebase.google.com/docs/hosting/quickstart",
     "caption": "브라우저가 열리지 않아 firebase login --no-localhost를 사용했을 때의 추가 확인 화면입니다. 일반 로그인에서는 나오지 않을 수 있습니다.",
     "tasks": [
@@ -386,14 +328,6 @@ const INSTALL_GUIDE=[
     "title": "첫 실행과 시험 예약",
     "where": "배포한 사이트 → 관리자",
     "text": "",
-    "checks": [
-      "관리자 로그인 후 초기 자료 생성과 운영일을 확인했어요",
-      "신청 전·중·후 문구, 기간, 항목과 회차별 수량을 확인했어요",
-      "시험 예약 조회·취소와 승인·거절(사용 시), 잔여 수량 복구를 확인했어요",
-      "마지막 자리·남은 물품의 동시 신청에서 초과 확정되지 않음을 시험했어요",
-      "관리자가 아닌 상태의 전체 예약 조회·관리자 저장 차단을 확인했어요",
-      "CSV·월별 백업을 확인하고 시험 예약 취소 및 최종 설정 점검을 마쳤어요"
-    ],
     "caption": "1. 초기 자료 생성 후 운영 관리 화면 · 달력에서 날짜 선택 → 해당 날짜 예약과 운영 설정 확인",
     "tasks": [
       {
@@ -423,7 +357,7 @@ const INSTALL_GUIDE=[
         "done": "시험 예약이 항목별 열에 표시됨"
       }
     ],
-    "more": "로그인은 되지만 관리자 권한이 없다고 나오면 admins 문서 ID가 그 계정의 UID인지, enabled가 boolean 참인지 확인하세요. 이미 초기화된 프로젝트는 자료를 덮어쓰려고 다시 초기화하지 말고 운영 관리에서 수정하세요. 백업 JSON은 보관용 파일이며 자동 복원 기능을 뜻하지 않습니다. 이 안내의 체크는 자동 검증이나 무장애 보장이 아닙니다."
+    "more": "로그인은 되지만 관리자 권한이 없다고 나오면 admins 문서 ID가 그 계정의 UID인지, enabled가 boolean 참인지 확인하세요. 이미 초기화된 프로젝트는 자료를 덮어쓰려고 다시 초기화하지 말고 운영 관리에서 수정하세요. 백업 JSON은 보관용 파일이며 자동 복원 기능을 뜻하지 않습니다."
   }
 ];
 
@@ -437,10 +371,9 @@ function installTask(task,index){
  return '<li class="install-task"><div class="install-task-number">'+(index+1)+'</div><div class="install-task-content"><p class="install-task-where">'+esc(task.where)+'</p><p class="install-task-action">'+esc(task.action)+'</p>'+(task.command?installCommand(task.command):'')+(task.locator?explorerLocator(task.locator):'')+'<p class="install-task-done">확인 · '+esc(task.done)+'</p>'+(task.image?'<details class="install-task-screen"><summary>이 단계의 실제 화면 보기</summary><a href="install-screens/'+task.image+'" target="_blank" rel="noopener"><img src="install-screens/'+task.image+'" alt="'+esc(task.where+' — '+task.action)+'" loading="lazy"></a><p>눌러 크게 보기 · 메뉴 이름과 배치는 바뀔 수 있어요.</p></details>':'')+'</div></li>';
 }
 function installationChecklist(){
- const step=INSTALL_GUIDE[installStep],total=INSTALL_GUIDE.reduce((n,s)=>n+s.checks.length,0),checked=Object.values(installChecks).filter(Boolean).length,done=step.checks.every((_,i)=>installChecks[installStep+':'+i]);
- return '<div class="install-checklist-shell"><div class="install-package-summary"><div><p class="eyebrow">YOUR SITE / INSTALL</p><h3>내 사이트를 Firebase에 설치해요.</h3><p>'+esc(presets[config.kind]?.name||config.kind)+' · '+esc(config.title)+' · '+config.slots.length+'회차</p></div><button class="primary" data-action="export">↓ 설치 ZIP 받기</button></div><aside class="install-scale" aria-label="사용 규모 안내"><strong>확인된 사용 규모</strong><div><span>동시 접속·일정 조회 <b>100명</b></span><span>같은 자리 선착순 경쟁 <b>10~20명</b></span></div><p>시험 사이트에서 확인한 범위이며 최대 인원이나 무장애 보장은 아닙니다. 100명 동시 신청·500명 접속은 아직 검증하지 않았어요. 무료 한도는 일정 수·조회 횟수에 따라 달라집니다.</p><details><summary>시험 조건과 무료 사용 한도</summary><p>2026년 11월 HTTP·Firebase SDK로 100개 독립 접속의 파일 읽기·익명 인증·실시간 일정 조회를 검사했습니다. 실제 휴대폰 100대의 화면 렌더링 검사는 포함하지 않습니다. 같은 회차 동시 신청은 10~20명 조건에서 검증했습니다.</p><p>같은 Wi-Fi 등 동일 IP에서는 신규 익명 계정 생성이 시간당 100개로 제한될 수 있습니다. 무료 사용량과 인증 제한은 Firebase 정책에 따릅니다.</p><a href="https://firebase.google.com/docs/firestore/quotas" target="_blank" rel="noopener">Firestore 무료 한도 ↗</a> · <a href="https://firebase.google.com/docs/auth/limits" target="_blank" rel="noopener">인증 제한 ↗</a></details></aside><div class="install-progress"><span>직접 확인 '+checked+' / '+total+'</span><progress value="'+checked+'" max="'+total+'"></progress></div><div class="install-guide-layout"><nav class="install-guide-nav" aria-label="설치 순서">'+INSTALL_GUIDE.map((s,i)=>'<button type="button" data-install-step="'+i+'" class="'+(i===installStep?'active':'')+'"><b>'+String(i+1).padStart(2,'0')+'</b><span>'+esc(s.title)+'</span></button>').join('')+'</nav><section class="install-step-panel"><p class="eyebrow">STEP '+String(installStep+1).padStart(2,'0')+' / '+INSTALL_GUIDE.length+'</p><h3>'+esc(step.title)+'</h3><ol class="install-tasks">'+step.tasks.map(installTask).join('')+'</ol>'+(step.link?'<a class="install-external" href="'+step.link+'" target="_blank" rel="noopener">이 단계의 공식 사이트 열기 ↗</a>':'')+(step.more?'<details class="install-extra"><summary>막혔을 때 · 추가 설명</summary><p>'+esc(step.more)+'</p></details>':'')+'<fieldset class="install-manual-checks"><legend>완료한 항목만 체크해 주세요.</legend>'+step.checks.map((text,i)=>'<label><input type="checkbox" data-install-check="'+installStep+':'+i+'" '+(installChecks[installStep+':'+i]?'checked':'')+'><span>'+esc(text)+'</span></label>').join('')+'</fieldset><p class="install-check-note">체크는 직접 진행한 기록이에요. 연결·배포 성공은 화면에서 확인해 주세요.</p><div class="install-step-actions"><button class="outline" type="button" data-install-step="'+(installStep-1)+'" '+(installStep===0?'disabled':'')+'>이전</button>'+(installStep<INSTALL_GUIDE.length-1?'<button class="primary" type="button" data-install-step="'+(installStep+1)+'" '+(done?'':'disabled')+'>다음 단계 →</button>':'<p>마지막 시험 예약까지 확인한 뒤 주소를 공유하세요.</p>')+'</div></section></div></div>';
+ const step=INSTALL_GUIDE[installStep],total=INSTALL_GUIDE.length,current=installStep+1;
+ return '<div class="install-checklist-shell"><div class="install-package-summary"><div><p class="eyebrow">YOUR SITE / INSTALL</p><h3>내 사이트를 Firebase에 설치해요.</h3><p>'+esc(presets[config.kind]?.name||config.kind)+' · '+esc(config.title)+' · '+config.slots.length+'회차</p></div><button class="primary" data-action="export">↓ 설치 ZIP 받기</button></div><aside class="install-scale" aria-label="사용 규모 안내"><strong>확인된 사용 규모</strong><div><span>동시 접속·일정 조회 <b>100명</b></span><span>같은 자리 선착순 경쟁 <b>10~20명</b></span></div><p>시험 사이트에서 확인한 범위이며 최대 인원이나 무장애 보장은 아닙니다. 100명 동시 신청·500명 접속은 아직 검증하지 않았어요. 무료 한도는 일정 수·조회 횟수에 따라 달라집니다.</p><details><summary>시험 조건과 무료 사용 한도</summary><p>2026년 11월 HTTP·Firebase SDK로 100개 독립 접속의 파일 읽기·익명 인증·실시간 일정 조회를 검사했습니다. 실제 휴대폰 100대의 화면 렌더링 검사는 포함하지 않습니다. 같은 회차 동시 신청은 10~20명 조건에서 검증했습니다.</p><p>같은 Wi-Fi 등 동일 IP에서는 신규 익명 계정 생성이 시간당 100개로 제한될 수 있습니다. 무료 사용량과 인증 제한은 Firebase 정책에 따릅니다.</p><a href="https://firebase.google.com/docs/firestore/quotas" target="_blank" rel="noopener">Firestore 무료 한도 ↗</a> · <a href="https://firebase.google.com/docs/auth/limits" target="_blank" rel="noopener">인증 제한 ↗</a></details></aside><div class="install-progress"><span>설치 단계 '+current+' / '+total+'</span><progress value="'+current+'" max="'+total+'"></progress></div><div class="install-guide-layout"><nav class="install-guide-nav" aria-label="설치 순서">'+INSTALL_GUIDE.map((s,i)=>'<button type="button" data-install-step="'+i+'" class="'+(i===installStep?'active':'')+'"><b>'+String(i+1).padStart(2,'0')+'</b><span>'+esc(s.title)+'</span></button>').join('')+'</nav><section class="install-step-panel"><p class="eyebrow">STEP '+String(installStep+1).padStart(2,'0')+' / '+INSTALL_GUIDE.length+'</p><h3>'+esc(step.title)+'</h3><ol class="install-tasks">'+step.tasks.map(installTask).join('')+'</ol>'+(step.link?'<a class="install-external" href="'+step.link+'" target="_blank" rel="noopener">이 단계의 공식 사이트 열기 ↗</a>':'')+(step.more?'<details class="install-extra"><summary>막혔을 때 · 추가 설명</summary><p>'+esc(step.more)+'</p></details>':'')+'<div class="install-step-actions"><button class="outline" type="button" data-install-step="'+(installStep-1)+'" '+(installStep===0?'disabled':'')+'>이전</button>'+(installStep<INSTALL_GUIDE.length-1?'<button class="primary" type="button" data-install-step="'+(installStep+1)+'" >다음 단계 →</button>':'<p>마지막 시험 예약까지 확인한 뒤 주소를 공유하세요.</p>')+'</div></section></div></div>';
 }
 
 function refreshInstallGuide(){const el=document.querySelector('#install-checklist');if(el)el.innerHTML=installationChecklist()}
-document.addEventListener('change',e=>{if(e.target.dataset.installCheck){installChecks[e.target.dataset.installCheck]=e.target.checked;refreshInstallGuide()}});
 document.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b||b.disabled)return;if(b.dataset.installStep!==undefined){const next=Number(b.dataset.installStep);if(next>=0&&next<INSTALL_GUIDE.length){installStep=next;refreshInstallGuide()}}else if(b.dataset.installCopy){try{await navigator.clipboard.writeText(b.dataset.installCopy);toast('명령을 복사했어요.')}catch{toast('명령을 직접 선택해 복사해 주세요.')}}});
