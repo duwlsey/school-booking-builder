@@ -24,3 +24,4 @@ install-screens/*
 !install-screens/30-copy-web-config.jpg
 !install-screens/31-node-download.jpg
 !install-screens/23-cli-confirm-command.jpg
+!install-screens/32-admin-uid-copy.png

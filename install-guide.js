@@ -201,8 +201,9 @@ const INSTALL_GUIDE=[
       {
         "where": "방금 추가한 사용자 행",
         "action": "사용자 UID 옆 복사 버튼 클릭",
-        "done": "이 UID를 다음 문서 ID에 붙여넣음",
-        "diagram": "uid"
+        "done": "오른쪽의 겹친 종이 모양 버튼이 복사 버튼입니다. 본인 관리자 계정의 UID를 복사하세요. 아래는 실제 캡처를 바탕으로 개인정보를 가린 안내 이미지입니다.",
+        "image": "32-admin-uid-copy.png",
+        "imageOpen": true
       },
       {
         "where": "Firestore → 데이터",
@@ -275,6 +276,13 @@ const INSTALL_GUIDE=[
     "caption": "실제 Firebase 콘솔 · 구성 선택과 코드 상자 오른쪽 아래 복사 아이콘 · 2026-11-02",
     "tasks": [
       {
+        "where": "앞에서 연 명령 입력 창",
+        "action": "아래 명령 복사 → 앞에서 연 명령 입력 창에 Ctrl+V로 붙여넣기 → Enter",
+        "done": "설정을 붙여넣으라는 안내가 보임. 이 창은 그대로 두고 Firebase 콘솔로 이동하세요.",
+        "command": "npm run configure",
+        "diagram": "terminal"
+      },
+      {
         "where": "Firebase 콘솔 왼쪽 설정 메뉴",
         "action": "설정 → 일반 → 아래쪽 내 앱 → 등록한 웹 앱 선택",
         "done": "SDK 설정 및 구성이 보임",
@@ -285,13 +293,6 @@ const INSTALL_GUIDE=[
         "action": "구성 선택 → 회색 코드 상자 오른쪽 아래 복사 버튼",
         "done": "내 웹 앱 설정 코드가 복사됨",
         "image": "30-copy-web-config.jpg"
-      },
-      {
-        "where": "앞에서 연 명령 입력 창",
-        "action": "아래 명령 복사 → 앞에서 연 명령 입력 창에 Ctrl+V로 붙여넣기 → Enter",
-        "done": "설정을 붙여넣으라는 안내가 보임. 앞의 Firebase 콘솔로 돌아가 구성 코드를 다시 복사하세요.",
-        "command": "npm run configure",
-        "diagram": "terminal"
       },
       {
         "where": "같은 창",
@@ -329,9 +330,9 @@ const INSTALL_GUIDE=[
         "diagram": "terminal"
       },
       {
-        "where": "Hosting URL",
+        "where": "Hosting URL · 완성된 예약 사이트 주소",
         "action": "명령 창 아래쪽 Hosting URL: 뒤의 https://…web.app 주소를 복사 → 브라우저 주소창에 붙여넣기 → Enter",
-        "done": "내 사이트 또는 최초 관리자 로그인 화면이 열림",
+        "done": "이 주소가 신청자에게 공유할 예약 사이트 주소예요. 첫 설치 때는 관리자 로그인·초기 자료 설정을 먼저 완료하세요.",
         "diagram": "hosting"
       }
     ],
@@ -387,7 +388,7 @@ function installLocator(task){
  return '<figure class="install-location-map"><figcaption>명령 입력 창 · Windows 예시 그림 (값은 예시)</figcaption><div class="install-terminal"><div>명령 프롬프트 <span>─　□　×</span></div><pre>'+esc(lines)+'</pre></div><p>'+(kind==='hosting'?'Hosting URL 뒤의 주소 전체를 여세요. 예시 주소는 사용하지 마세요.':kind==='config'?'명령어가 아니라 본인 Firebase 웹 앱의 구성 코드를 붙여넣는 단계예요.':'파일 탐색기 주소창에 cmd를 입력해 열었던 창이에요. > 뒤의 커서가 있는 줄에 붙여넣고 Enter를 누르세요.')+'</p></figure>';
 }
 function installTask(task,index){
- return '<li class="install-task"><div class="install-task-number">'+(index+1)+'</div><div class="install-task-content"><p class="install-task-where">'+esc(task.where)+'</p><p class="install-task-action">'+esc(task.action)+'</p>'+(task.command?installCommand(task.command):'')+(task.locator?explorerLocator(task.locator):'')+(task.diagram?installLocator(task):'')+'<p class="install-task-done">확인 · '+esc(task.done)+'</p>'+(task.image?'<details class="install-task-screen"><summary>이 단계의 실제 화면 보기</summary><a href="install-screens/'+task.image+'" target="_blank" rel="noopener"><img src="install-screens/'+task.image+'" alt="'+esc(task.where+' — '+task.action)+'" loading="lazy"></a><p>눌러 크게 보기 · 메뉴 이름과 배치는 바뀔 수 있어요.</p></details>':'')+'</div></li>';
+ return '<li class="install-task"><div class="install-task-number">'+(index+1)+'</div><div class="install-task-content"><p class="install-task-where">'+esc(task.where)+'</p><p class="install-task-action">'+esc(task.action)+'</p>'+(task.command?installCommand(task.command):'')+(task.locator?explorerLocator(task.locator):'')+(task.diagram?installLocator(task):'')+'<p class="install-task-done">확인 · '+esc(task.done)+'</p>'+(task.image?'<details class="install-task-screen"'+(task.imageOpen?' open':'')+'><summary>이 단계의 실제 화면 보기</summary><a href="install-screens/'+task.image+'" target="_blank" rel="noopener"><img src="install-screens/'+task.image+'" alt="'+esc(task.where+' — '+task.action)+'" loading="lazy"></a><p>눌러 크게 보기 · 메뉴 이름과 배치는 바뀔 수 있어요.</p></details>':'')+'</div></li>';
 }
 function installationChecklist(){
  const step=INSTALL_GUIDE[installStep],total=INSTALL_GUIDE.length,current=installStep+1;
