@@ -94,7 +94,8 @@ const INSTALL_GUIDE=[
       {
         "where": "프로젝트 개요",
         "action": "앱 추가 → 웹 아이콘 </> 선택",
-        "done": "웹 앱 등록 화면이 열림"
+        "done": "웹 앱 등록 화면이 열림",
+        "diagram": "web"
       },
       {
         "where": "앱 닉네임 입력란",
@@ -121,7 +122,8 @@ const INSTALL_GUIDE=[
       {
         "where": "콘솔 왼쪽 메뉴",
         "action": "데이터베이스 및 스토리지 → Firestore → 데이터베이스 만들기",
-        "done": "버전 선택 화면이 열림"
+        "done": "버전 선택 화면이 열림",
+        "diagram": "firestore"
       },
       {
         "where": "버전 선택",
@@ -155,12 +157,13 @@ const INSTALL_GUIDE=[
     "where": "보안 → Authentication → 로그인 방법",
     "text": "",
     "link": "https://firebase.google.com/docs/auth/web/anonymous-auth",
-    "caption": "1. 익명 선택 → 오른쪽 사용 설정 켜기 → 저장. 캡처는 켜기 전 화면입니다.",
+    "caption": "익명 로그인 사용 설정이 켜진 실제 화면입니다.",
     "tasks": [
       {
         "where": "콘솔 왼쪽 메뉴",
         "action": "보안 → Authentication → 시작하기 → 로그인 방법",
-        "done": "제공업체를 고르는 목록이 열림"
+        "done": "제공업체를 고르는 목록이 열림",
+        "diagram": "auth"
       },
       {
         "where": "제공업체 목록",
@@ -198,7 +201,8 @@ const INSTALL_GUIDE=[
       {
         "where": "방금 추가한 사용자 행",
         "action": "사용자 UID 옆 복사 버튼 클릭",
-        "done": "이 UID를 다음 문서 ID에 붙여넣음"
+        "done": "이 UID를 다음 문서 ID에 붙여넣음",
+        "diagram": "uid"
       },
       {
         "where": "Firestore → 데이터",
@@ -242,21 +246,24 @@ const INSTALL_GUIDE=[
       },
       {
         "where": "명령 입력 창",
-        "action": "아래 명령 복사 → 붙여넣기 → Enter",
+        "action": "아래 명령 복사 → 앞에서 연 명령 입력 창에 Ctrl+V로 붙여넣기 → Enter",
         "done": "v로 시작하는 버전 숫자가 보임",
-        "command": "node --version"
+        "command": "node --version",
+        "diagram": "terminal"
       },
       {
         "where": "같은 창",
-        "action": "아래 설치 명령 실행 후 입력 줄이 다시 나올 때까지 기다리기",
+        "action": "아래 명령 복사 → 앞에서 연 명령 입력 창에 Ctrl+V로 붙여넣기 → Enter → 입력 줄이 다시 나올 때까지 기다리기",
         "done": "설치가 끝나면 다음 명령을 입력할 수 있음",
-        "command": "npm install -g firebase-tools"
+        "command": "npm install -g firebase-tools",
+        "diagram": "terminal"
       },
       {
         "where": "같은 창",
-        "action": "버전 확인",
+        "action": "아래 명령 복사 → 앞에서 연 명령 입력 창에 Ctrl+V로 붙여넣기 → Enter",
         "done": "버전 숫자가 보이면 완료",
-        "command": "firebase --version"
+        "command": "firebase --version",
+        "diagram": "terminal"
       }
     ],
     "more": "node 또는 npm을 찾을 수 없으면 Node.js 설치 후 창을 닫고 다시 여세요. PowerShell에서 스크립트 실행 정책 오류가 나면 정책을 변경하지 말고 위 안내대로 cmd 창에서 실행하세요. package.json을 찾을 수 없다는 오류는 압축을 푼 폴더 위치를 확인하세요. 설치가 오류로 끝나거나 학교 컴퓨터에서 설치가 제한되면 오류 내용을 확인한 뒤 진행하세요. 경고(warn)만으로 실패를 판단하지 말고 마지막 버전 확인까지 해 주세요."
@@ -270,7 +277,8 @@ const INSTALL_GUIDE=[
       {
         "where": "Firebase 콘솔 왼쪽 설정 메뉴",
         "action": "설정 → 일반 → 아래쪽 내 앱 → 등록한 웹 앱 선택",
-        "done": "SDK 설정 및 구성이 보임"
+        "done": "SDK 설정 및 구성이 보임",
+        "diagram": "settings"
       },
       {
         "where": "SDK 설정 및 구성",
@@ -280,14 +288,16 @@ const INSTALL_GUIDE=[
       },
       {
         "where": "앞에서 연 명령 입력 창",
-        "action": "아래 명령 실행",
-        "done": "설정을 붙여넣으라는 안내가 보임",
-        "command": "npm run configure"
+        "action": "아래 명령 복사 → 앞에서 연 명령 입력 창에 Ctrl+V로 붙여넣기 → Enter",
+        "done": "설정을 붙여넣으라는 안내가 보임. 앞의 Firebase 콘솔로 돌아가 구성 코드를 다시 복사하세요.",
+        "command": "npm run configure",
+        "diagram": "terminal"
       },
       {
         "where": "같은 창",
-        "action": "Ctrl+V로 붙여넣기 → 마지막 빈 줄에서 Enter 한 번 더",
-        "done": "공개 설정 저장 완료 + 내 프로젝트 ID 표시"
+        "action": "앞의 Firebase 콘솔에서 복사한 구성 코드(firebaseConfig)를 Ctrl+V로 붙여넣기 → 마지막 빈 줄에서 Enter 한 번 더",
+        "done": "공개 설정 저장 완료 + 내 프로젝트 ID 표시",
+        "diagram": "config"
       }
     ],
     "more": "사진 속 설정 값은 예시입니다. 반드시 본인 콘솔의 복사 버튼을 사용하세요. 비밀번호·서비스 계정 키를 입력하는 단계가 아닙니다. npm을 찾을 수 없다고 나오면 Node.js 설치 후 터미널을 새로 열고, package.json을 찾을 수 없다고 나오면 압축을 푼 폴더 위치를 확인하세요."
@@ -301,9 +311,10 @@ const INSTALL_GUIDE=[
     "tasks": [
       {
         "where": "앞에서 연 명령 입력 창",
-        "action": "아래 명령 실행",
+        "action": "아래 명령 복사 → 앞에서 연 명령 입력 창에 Ctrl+V로 붙여넣기 → Enter",
         "done": "Google 로그인 창이 열림",
-        "command": "firebase login"
+        "command": "firebase login",
+        "diagram": "terminal"
       },
       {
         "where": "Google 로그인 창",
@@ -312,14 +323,16 @@ const INSTALL_GUIDE=[
       },
       {
         "where": "명령 입력 창",
-        "action": "아래 명령 실행 → 표시된 프로젝트 ID가 내 것인지 확인",
+        "action": "아래 명령 복사 → 앞에서 연 명령 입력 창에 Ctrl+V로 붙여넣기 → Enter → 표시된 프로젝트 ID가 내 것인지 확인",
         "done": "Deploy complete!와 Hosting URL이 보임",
-        "command": "npm run deploy"
+        "command": "npm run deploy",
+        "diagram": "terminal"
       },
       {
         "where": "Hosting URL",
-        "action": "출력된 web.app 주소 열기",
-        "done": "내 사이트 또는 최초 관리자 로그인 화면이 열림"
+        "action": "명령 창 아래쪽 Hosting URL: 뒤의 https://…web.app 주소를 복사 → 브라우저 주소창에 붙여넣기 → Enter",
+        "done": "내 사이트 또는 최초 관리자 로그인 화면이 열림",
+        "diagram": "hosting"
       }
     ],
     "more": "로그인 브라우저가 자동으로 열리지 않으면 firebase login --no-localhost를 사용할 수 있습니다. 이때 나오는 인증 코드·승인 링크는 본인 로그인에만 사용하세요. 권한 오류는 Google 계정과 프로젝트 ID, Firestore 관련 오류는 기본 데이터베이스 생성 여부를 먼저 확인하세요. npm이 package.json을 찾지 못하면 압축을 푼 폴더 위치를 확인하세요. 오류가 나면 끝부분의 오류 내용을 확인한 뒤 다시 실행하고, 보안 규칙을 공개로 바꾸어 해결하지 마세요."
@@ -367,8 +380,14 @@ function installCommand(command){
 function explorerLocator(mode){
  return '<figure class="install-locator"><figcaption>파일 탐색기 위치 안내 · Windows 예시 그림</figcaption><div class="explorer-example"><div class="explorer-title">파일 탐색기</div><div class="explorer-toolbar"><span>←　↑</span><div class="explorer-address '+(mode==='address'?'is-target':'')+'">'+(mode==='address'?'여기를 클릭 → cmd 입력 → Enter':'다운로드　›　압축을 푼 설치 폴더')+'</div><div class="explorer-search">검색</div></div><div class="explorer-files"><span>📁 public</span><strong>package.json</strong><strong>setup.cjs</strong><span>시작하기.html</span></div></div><p>주소창은 창 맨 위에서 폴더 경로가 보이는 긴 칸이에요. 오른쪽 검색창과 구분해 주세요.</p></figure>';
 }
+function installLocator(task){
+ const routes={web:['프로젝트 개요','앱 추가','</> 웹'],firestore:['왼쪽 메뉴','데이터베이스 및 스토리지','Firestore','데이터베이스 만들기'],auth:['왼쪽 메뉴','보안','Authentication','시작하기','로그인 방법'],uid:['Authentication','사용자','내 관리자 계정','사용자 UID　▣ 복사'],settings:['왼쪽 설정 ⚙','일반','아래쪽으로 스크롤','내 앱','등록한 웹 앱']};
+ const kind=task.diagram;if(routes[kind]){const side=kind==='firestore'?'데이터베이스 및 스토리지　⌄<strong>Firestore</strong>':kind==='auth'?'보안　⌄<strong>Authentication</strong>':kind==='settings'?'<strong>⚙ 설정　⌄</strong>일반':'프로젝트 개요';const content=kind==='web'?'<h4>프로젝트 개요</h4><p>앱을 추가하여 시작하기</p><div class="console-target">앱 추가　→　&lt;/&gt; 웹</div>':kind==='firestore'?'<h4>Firestore</h4><div class="console-target">＋ データベース 만들기</div>'.replace('データベース','데이터베이스'):kind==='auth'?'<h4>Authentication</h4><div class="console-target">시작하기　→　로그인 방법</div>':kind==='uid'?'<h4>Authentication　/　사용자</h4><p>내 관리자 계정 선택</p><div class="console-target">사용자 UID　예시-UID　▣ 복사</div>':'<h4>프로젝트 설정　/　일반</h4><p>↓ 아래쪽으로 스크롤</p><div class="console-target">내 앱　→　&lt;/&gt; 등록한 웹 앱</div>';return '<figure class="install-location-map"><figcaption>클릭 위치 · Firebase 콘솔 예시 그림</figcaption><div class="console-example"><div class="console-example-top">Firebase　 /　 내 프로젝트</div><div class="console-example-layout"><div class="console-example-side">'+side+'</div><div class="console-example-body">'+content+'</div></div></div><div class="install-route">'+routes[kind].map((x,i)=>'<span><b>'+(i+1)+'</b>'+esc(x)+'</span>').join('<i>→</i>')+'</div></figure>';}
+ const lines=kind==='hosting'?'✔ Deploy complete!\n\nHosting URL: https://내-프로젝트-ID.web.app':kind==='config'?'Firebase 콘솔에서 복사한 구성 코드를 붙여넣으세요.\nconst firebaseConfig = {\n  apiKey: "…",\n  projectId: "내-프로젝트-ID",\n  appId: "…"\n};\n\n[마지막 빈 줄에서 Enter]':'C:\\다운로드\\압축을 푼 설치 폴더> '+task.command+'  ↵';
+ return '<figure class="install-location-map"><figcaption>명령 입력 창 · Windows 예시 그림 (값은 예시)</figcaption><div class="install-terminal"><div>명령 프롬프트 <span>─　□　×</span></div><pre>'+esc(lines)+'</pre></div><p>'+(kind==='hosting'?'Hosting URL 뒤의 주소 전체를 여세요. 예시 주소는 사용하지 마세요.':kind==='config'?'명령어가 아니라 본인 Firebase 웹 앱의 구성 코드를 붙여넣는 단계예요.':'파일 탐색기 주소창에 cmd를 입력해 열었던 창이에요. > 뒤의 커서가 있는 줄에 붙여넣고 Enter를 누르세요.')+'</p></figure>';
+}
 function installTask(task,index){
- return '<li class="install-task"><div class="install-task-number">'+(index+1)+'</div><div class="install-task-content"><p class="install-task-where">'+esc(task.where)+'</p><p class="install-task-action">'+esc(task.action)+'</p>'+(task.command?installCommand(task.command):'')+(task.locator?explorerLocator(task.locator):'')+'<p class="install-task-done">확인 · '+esc(task.done)+'</p>'+(task.image?'<details class="install-task-screen"><summary>이 단계의 실제 화면 보기</summary><a href="install-screens/'+task.image+'" target="_blank" rel="noopener"><img src="install-screens/'+task.image+'" alt="'+esc(task.where+' — '+task.action)+'" loading="lazy"></a><p>눌러 크게 보기 · 메뉴 이름과 배치는 바뀔 수 있어요.</p></details>':'')+'</div></li>';
+ return '<li class="install-task"><div class="install-task-number">'+(index+1)+'</div><div class="install-task-content"><p class="install-task-where">'+esc(task.where)+'</p><p class="install-task-action">'+esc(task.action)+'</p>'+(task.command?installCommand(task.command):'')+(task.locator?explorerLocator(task.locator):'')+(task.diagram?installLocator(task):'')+'<p class="install-task-done">확인 · '+esc(task.done)+'</p>'+(task.image?'<details class="install-task-screen"><summary>이 단계의 실제 화면 보기</summary><a href="install-screens/'+task.image+'" target="_blank" rel="noopener"><img src="install-screens/'+task.image+'" alt="'+esc(task.where+' — '+task.action)+'" loading="lazy"></a><p>눌러 크게 보기 · 메뉴 이름과 배치는 바뀔 수 있어요.</p></details>':'')+'</div></li>';
 }
 function installationChecklist(){
  const step=INSTALL_GUIDE[installStep],total=INSTALL_GUIDE.length,current=installStep+1;
