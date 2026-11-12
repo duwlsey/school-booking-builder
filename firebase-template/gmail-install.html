@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>관리자 Gmail 알림 연결</title>
+<style>
+  body {max-width:740px;margin:40px auto;padding:0 20px;font:16px/1.65 system-ui,sans-serif;color:#24364a}
+  li {margin:16px 0}
+  textarea {display:block;width:100%;box-sizing:border-box;min-height:9rem;margin:8px 0;font:13px/1.5 monospace}
+  button {padding:8px 14px;border:1px solid #a8b9ca;border-radius:6px;background:#edf4fa;color:inherit;cursor:pointer}
+</style>
+<h1>관리자 Gmail 알림 연결</h1>
+<!-- gmail-guide-start -->
+<p>새 예약과 최근 상태를 약 5분마다 확인해 관리자 이메일 한 곳에 묶어 보냅니다. 같은 예약이 여러 번 바뀌면 확인 시점의 최신 상태가 표시됩니다.</p>
+<ol>
+  <li>Firebase 프로젝트에 접근할 수 있는 Google 계정으로 <a href="https://script.google.com/home/start" target="_blank" rel="noopener">Google Apps Script</a>를 열고 <b>새 프로젝트</b>를 만드세요. 예약 사이트 배포 후 설정하면 됩니다.</li>
+  <li><b>Code.gs</b>의 내용을 아래 코드로 교체하세요. 맨 위 두 줄에 Firebase <b>프로젝트 ID</b>와 <b>관리자 이메일 주소</b>를 입력하고 저장하세요.
+    <textarea readonly id="code" aria-label="Apps Script 코드">__GMAIL_CODE__</textarea>
+    <button type="button" data-copy="code">코드 복사</button>
+  </li>
+  <li>Apps Script 왼쪽 <b>프로젝트 설정</b>에서 <b>편집기에 appsscript.json 매니페스트 파일 표시</b>를 켜세요. 편집기로 돌아가 <b>appsscript.json</b> 내용을 아래 설정으로 교체하고 저장하세요.
+    <textarea readonly id="manifest" aria-label="Apps Script 매니페스트">__GMAIL_MANIFEST__</textarea>
+    <button type="button" data-copy="manifest">설정 복사</button>
+  </li>
+  <li>편집기 위쪽에서 <code>setupBookingNotifications</code>를 선택하고 <b>실행</b>을 누르세요. Google이 요청하는 권한을 확인하고 승인하면 연결 확인 메일이 도착합니다.</li>
+  <li>사이트에서 시험 예약을 만들고 상태를 바꿔 관리자 메일을 확인하세요. 알림을 끄려면 Apps Script에서 <code>stopBookingNotifications</code>를 실행하세요.</li>
+</ol>
+<p id="copy-status" role="status"></p>
+<p>Google 계정의 <a href="https://developers.google.com/apps-script/guides/services/quotas" target="_blank" rel="noopener">일일 발송 한도</a>가 적용됩니다. 한도를 다 쓰면 이후 실행에서 남은 알림을 다시 확인합니다. 학교 계정에서 Apps Script나 권한 승인이 제한된 경우 계정 관리자에게 확인하세요.</p>
+<!-- gmail-guide-end -->
+<script>
+  document.addEventListener('click', async event => {
+    const key = event.target.dataset.copy;
+    if (!key) return;
+    const input = document.getElementById(key);
+    const status = document.getElementById('copy-status');
+    try {
+      await navigator.clipboard.writeText(input.value);
+      status.textContent = '복사했어요.';
+    } catch {
+      input.select();
+      status.textContent = '선택된 내용을 Ctrl+C로 복사하세요.';
+    }
+  });
+</script>
+</html>

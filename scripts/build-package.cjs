@@ -2,11 +2,27 @@ const fs=require('node:fs'),path=require('node:path');
 const root=path.resolve(__dirname,'..'),template=path.join(root,'firebase-template'),files={};
 for(const name of ['app.mjs','model.mjs','receipt.mjs'])files['public/'+name]=fs.readFileSync(path.join(template,name),'utf8');
 files['firestore.rules']=fs.readFileSync(path.join(template,'firestore.rules'),'utf8');
+files['prepare-priority.cjs']=fs.readFileSync(path.join(template,'prepare-priority.cjs'),'utf8');
 files['setup.cjs']=fs.readFileSync(path.join(template,'setup.cjs'),'utf8');
 files['시작하기.html']=fs.readFileSync(path.join(template,'시작하기.html'),'utf8');
-files['package.json']=JSON.stringify({name:'school-booking-site',version:'1.0.0',private:true,scripts:{configure:'node setup.cjs',deploy:'node verify-config.cjs && firebase deploy --only hosting,firestore:rules'}},null,2);
+const gmailCode = fs.readFileSync(path.join(template,'gmail-notifications.gs'),'utf8');
+const gmailManifest = JSON.stringify({
+  timeZone:'Asia/Seoul',exceptionLogging:'STACKDRIVER',runtimeVersion:'V8',
+  oauthScopes:[
+    'https://www.googleapis.com/auth/datastore',
+    'https://www.googleapis.com/auth/script.external_request',
+    'https://www.googleapis.com/auth/script.send_mail',
+    'https://www.googleapis.com/auth/script.scriptapp'
+  ]
+},null,2);
+const escapeTextarea = value => value.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+files['Gmail-알림-설정.html'] = fs.readFileSync(path.join(template,'gmail-install.html'),'utf8')
+  .replace('__GMAIL_CODE__',()=>escapeTextarea(gmailCode))
+  .replace('__GMAIL_MANIFEST__',()=>escapeTextarea(gmailManifest));
+
+files['package.json']=JSON.stringify({name:'school-booking-site',version:'1.0.0',private:true,scripts:{configure:'node setup.cjs',deploy:'node verify-config.cjs && node prepare-priority.cjs && firebase deploy --only hosting,firestore:rules'}},null,2);
 files['verify-config.cjs']=`const fs=require('node:fs');const c=JSON.parse(fs.readFileSync('public/firebase-config.json'));const a=JSON.parse(fs.readFileSync('.firebaserc'));if(!c.projectId||c.projectId==='YOUR_PROJECT_ID'||a.projects.default!==c.projectId)throw Error('npm run configure로 본인 프로젝트 설정을 먼저 입력하세요.');console.log('배포 대상: '+c.projectId);`;
-files['.gitignore']='node_modules/\n.firebase/\n*debug.log\n';
+files['.gitignore']='node_modules/\n.firebase/\n*debug.log\npriority-install.json\n';
 files['.firebaserc']=JSON.stringify({projects:{default:'YOUR_PROJECT_ID'}},null,2);
 files['public/firebase-config.json']=JSON.stringify({apiKey:'YOUR_WEB_API_KEY',authDomain:'YOUR_PROJECT_ID.firebaseapp.com',projectId:'YOUR_PROJECT_ID',appId:'YOUR_WEB_APP_ID'},null,2);
 files['firebase.json']=JSON.stringify({hosting:{public:'public',ignore:['firebase.json','**/.*','**/node_modules/**'],headers:[{source:'**',headers:[{key:'Referrer-Policy',value:'no-referrer'},{key:'X-Content-Type-Options',value:'nosniff'},{key:'Cache-Control',value:'no-store'}]}]},firestore:{rules:'firestore.rules',indexes:'firestore.indexes.json'},emulators:{auth:{port:9099},firestore:{port:8080},hosting:{port:5000},ui:{enabled:false}}},null,2);
@@ -21,5 +37,4 @@ const guideCss=fs.readFileSync(path.join(root,'studio-light.css'),'utf8');
 files['설치체크리스트.html']='<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>내 사이트 설치 체크리스트</title><style>'+guideCss+'</style><style>body{max-width:1100px;margin:30px auto;padding:0 20px;font:14px/1.7 sans-serif;background:#f3f6fa;color:#26394b}.install-package-summary button{display:none}</style><main id="install-checklist"></main><div id="guide-toast" role="status"></div><script>const config=__SITE_CONFIG_JSON__;const presets={consult:{name:"학부모 상담"},room:{name:"특별실"},rental:{name:"물품 대여"},event:{name:"행사·프로그램"}};const esc=v=>String(v??"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));function toast(t){document.getElementById("guide-toast").textContent=t;}'+guideJs+';refreshInstallGuide();<\/script></html>';
 const screenshotPath=path.join(root,'install-screens');for(const image of ["02-project-create.jpg","03-project-name-filled.jpg","04-gemini-option.jpg","05-analytics-off.jpg","08-web-app-register.jpg","09-web-sdk.jpg","10-firestore-standard.jpg","11-firestore-location.jpg","12-firestore-production.jpg","13-firestore-no-backup.jpg","14-firestore-ready.jpg","15-anonymous-auth.png","16-email-auth.jpg","17-auth-ready.jpg","18-admin-create.jpg","19-admin-collection.png","20-admin-permission.png","27-admin-ready.jpg","28-admin-text-settings.jpg","30-copy-web-config.png","32-admin-uid-copy.png","31-node-download.jpg","23-cli-confirm-command.jpg"])files['install-screens/'+image]={base64:fs.readFileSync(path.join(screenshotPath,image)).toString('base64')};
 fs.writeFileSync(path.join(root,'package-assets.js'),'const FIREBASE_PACKAGE_FILES='+JSON.stringify(files)+';\n');
-
 console.log(Object.keys(files).length+' package files bundled');

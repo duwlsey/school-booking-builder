@@ -4,6 +4,33 @@ service cloud.firestore {
     function signed() { return request.auth != null; }
     function admin() { return signed() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)) && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.enabled == true; }
     function settings() { return get(/databases/$(database)/documents/site/settings).data; }
+    function priorityAllowed() {
+      let cutoff = settings().get('priorityUntil', null);
+      return cutoff == null || request.time >= cutoff
+        || (request.auth.token.firebase.sign_in_provider == 'password'
+          && request.auth.uid == settings().get('priorityUid', ''));
+    }
+    function bookingLeadDays(d) { return d.config.get('bookingLeadDays', 0); }
+    function validBookingLeadDays(d) {
+      let days = bookingLeadDays(d);
+      let start = d.get('bookingLeadStartAt', null);
+      let end = d.get('bookingLeadEndAt', null);
+      return days is int && days >= 0 && days <= 365
+        && ((start == null && end == null) || (start is int && end is int && start < end));
+    }
+    function bookingDateAllowed(beginAt) {
+      let days = bookingLeadDays(settings());
+      let now = request.time.toMillis();
+      let midnight = now - ((now + 32400000) % 86400000);
+      let start = settings().get('bookingLeadStartAt', null);
+      let end = settings().get('bookingLeadEndAt', null);
+      return days == 0 || (start != null && now < start) || (end != null && now >= end)
+        || beginAt.toMillis() >= midnight + days * 86400000;
+    }
+    function ownsAnonymousBooking() {
+      return signed() && request.auth.token.firebase.sign_in_provider == 'anonymous'
+        && resource.data.ownerUid == request.auth.uid;
+    }
     function pool(id) { return get(/databases/$(database)/documents/resources/$(id)).data; }
     function poolAfter(id) { return getAfter(/databases/$(database)/documents/resources/$(id)).data; }
     function allocates(id, q, bid) {
@@ -36,10 +63,10 @@ service cloud.firestore {
     }
     match /site/settings {
       allow read: if true;
-      allow create: if admin() && request.resource.data.opensAt is timestamp
+      allow create: if admin() && validBookingLeadDays(request.resource.data) && request.resource.data.opensAt is timestamp
         && request.resource.data.closesAt is timestamp && request.resource.data.opensAt < request.resource.data.closesAt;
-      allow update: if admin() && request.resource.data.opensAt < request.resource.data.closesAt
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['config','opensAt','closesAt','paused','updatedAt']);
+      allow update: if admin() && validBookingLeadDays(request.resource.data) && request.resource.data.opensAt < request.resource.data.closesAt
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['config','opensAt','closesAt','paused','updatedAt','priorityUntil','priorityUid','bookingLeadStartAt','bookingLeadEndAt']);
       allow delete: if false;
     }
     match /resources/{rid} {
@@ -52,8 +79,7 @@ service cloud.firestore {
     }
     match /bookings/{bid} {
       // Internal booking IDs can appear in counters; they are NOT receipt secrets.
-      allow get: if admin() || (signed() && resource.data.ownerUid == request.auth.uid);
-      allow list: if admin() || (signed() && resource.data.ownerUid == request.auth.uid);
+      allow get, list: if admin() || ownsAnonymousBooking();
       allow create: if signed() && bid.size() == 48
         && request.resource.data.keys().hasOnly(['bookingId','receiptCode','ownerUid','resourceId','quantity','active','status','answers','snapshot','createdAt','updatedAt'])
         && request.resource.data.bookingId == bid
@@ -69,8 +95,9 @@ service cloud.firestore {
         && request.resource.data.createdAt == request.time && request.resource.data.updatedAt == request.time
         && (request.resource.data.status == 'pending' || request.resource.data.status == 'confirmed')
         && (admin() || (request.time >= settings().opensAt && request.time < settings().closesAt
-          && !settings().paused && !pool(request.resource.data.resourceId).closed
+          && priorityAllowed() && !settings().paused && !pool(request.resource.data.resourceId).closed
           && request.time < pool(request.resource.data.resourceId).beginAt
+          && bookingDateAllowed(pool(request.resource.data.resourceId).beginAt)
           && request.resource.data.status == (settings().config.approval == 'manual' ? 'pending' : 'confirmed')))
         && allocates(request.resource.data.resourceId, request.resource.data.quantity, bid);
       allow update: if signed()

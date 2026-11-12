@@ -2,6 +2,10 @@ export function normalizeConfig(c) {
   const out=structuredClone(c);
   if(!out.title?.trim()||!out.organization?.trim()||!out.slots?.length)throw Error('학교 이름과 예약 일정을 입력하세요.');
   if(out.open>=out.close)throw Error('신청 마감은 시작보다 뒤여야 합니다.');
+  if(out.priorityUntil!=null&&!(out.open<out.priorityUntil&&out.priorityUntil<out.close))throw Error('일반 신청 시작은 신청 시작과 마감 사이로 정해 주세요.');
+  out.bookingLeadDays ??= 0;
+  if(!Number.isInteger(out.bookingLeadDays)||out.bookingLeadDays<0||out.bookingLeadDays>365)throw Error('최소 신청 일수를 0~365 사이의 정수로 입력해 주세요.');
+  bookingLeadWindow(out);
   const slots=[...out.slots].sort((a,b)=>(a.date+a.start).localeCompare(b.date+b.start));
   const keys=new Set();
   for(let i=0;i<slots.length;i++){
@@ -21,10 +25,35 @@ export function resourceSeed(c) {
     items.forEach((item,j)=>all.push({id:'s'+index+'i'+j,slotKey:[s.date,s.start||'',s.end||''].join('|'),label:s.label||'',date:s.date,start:s.start||'',end:s.end||'',item,kind:c.kind,capacity:c.kind==='rental'?c.itemStock[item]:s.capacity,used:0,closed:!!s.closed,beginAt:begin,endAt:finish,cancelBefore:begin-c.cancelHours*3600000,lastBooking:''}));
   });return all;
 }
+const dayMillis = 86400000;
+const koreaOffsetMillis = 32400000;
+export function koreanMidnight(now) {
+  return Math.floor((now + koreaOffsetMillis) / dayMillis) * dayMillis - koreaOffsetMillis;
+}
+export function earliestBookingTime(days, now = Date.now()) {
+  return koreanMidnight(now) + days * dayMillis;
+}
+export function bookingLeadWindow(config) {
+  const { bookingLeadDays, bookingLeadStart, bookingLeadEnd } = config;
+  if (!bookingLeadDays || (!bookingLeadStart && !bookingLeadEnd)) return {bookingLeadStartAt:null,bookingLeadEndAt:null};
+  const bookingLeadStartAt=Date.parse(bookingLeadStart+'+09:00');
+  const bookingLeadEndAt=Date.parse(bookingLeadEnd+'+09:00');
+  if (!Number.isFinite(bookingLeadStartAt) || !Number.isFinite(bookingLeadEndAt) || bookingLeadStartAt>=bookingLeadEndAt) {
+    throw Error('신청일 제한의 시작과 종료 시각을 순서대로 입력해 주세요.');
+  }
+  return {bookingLeadStartAt,bookingLeadEndAt};
+}
+export function activeBookingLeadDays(settings, now=Date.now()) {
+  if (settings.bookingLeadStartAt!=null && now<settings.bookingLeadStartAt) return 0;
+  if (settings.bookingLeadEndAt!=null && now>=settings.bookingLeadEndAt) return 0;
+  return settings.config?.bookingLeadDays||0;
+}
 export function availability(pool,settings,now=Date.now()) {
   if(settings.paused||pool.closed)return '중지';
   if(now<settings.opensAt)return '신청 시작 전';
   if(now>=settings.closesAt||now>=pool.beginAt||pool.used>=pool.capacity)return '마감';
+  const leadDays=activeBookingLeadDays(settings,now);
+  if(leadDays>0&&pool.beginAt<earliestBookingTime(leadDays,now))return '신청 제한';
   return '가능';
 }
 export function claim(pool,quantity){if(!Number.isInteger(quantity)||quantity<1||quantity>pool.capacity-pool.used)throw Error('남은 정원·수량이 부족합니다.');return pool.used+quantity}
